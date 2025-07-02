@@ -100,6 +100,7 @@ function initializeApp() {
   renderProducts();
   updateCartUI();
   setupEventListeners();
+  initializeSophisticatedAnimations();
   console.log('ModernShop initialized successfully! 🛒');
 }
 
@@ -244,7 +245,7 @@ function addToCart(productId) {
 
   updateCartStorage();
   updateCartUI();
-  showNotification(`${product.title} がカートに追加されました`);
+  showSophisticatedNotification(`${product.title} がカートに追加されました`);
 }
 
 function removeFromCart(productId) {
@@ -407,27 +408,25 @@ function showRegister() {
 // Checkout functionality
 function checkout() {
   if (cart.length === 0) {
-    showNotification('カートに商品がありません');
+    showSophisticatedNotification('カートに商品がありません');
     return;
   }
 
   // Simulate checkout process
-  showNotification('決済処理中...', 'info');
+  showSophisticatedNotification('決済処理中...', 'info');
   
   setTimeout(() => {
     cart = [];
     updateCartStorage();
     updateCartUI();
     closeCart();
-    showNotification('ご注文ありがとうございました！', 'success');
+    showSophisticatedNotification('ご注文ありがとうございました！', 'success');
   }, 2000);
 }
 
 // Utility functions
 function scrollToProducts() {
-  document.getElementById('products').scrollIntoView({
-    behavior: 'smooth'
-  });
+  sophisticatedScrollTo('#products');
 }
 
 function showNotification(message, type = 'success') {
@@ -494,6 +493,173 @@ function toggleMobileMenu() {
 function trackEvent(eventName, properties = {}) {
   console.log('Event tracked:', eventName, properties);
   // Real analytics implementation would go here
+}
+
+// Sophisticated animation system
+function initializeSophisticatedAnimations() {
+  // Create intersection observer for scroll animations
+  const animationObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        // Add staggered animation delays
+        setTimeout(() => {
+          entry.target.classList.add('animated');
+          
+          // Add specific animation classes based on element type
+          if (entry.target.classList.contains('section-title')) {
+            entry.target.classList.add('animate-text-reveal');
+          } else if (entry.target.classList.contains('category-card')) {
+            entry.target.classList.add('animate-scale-in');
+          } else if (entry.target.classList.contains('product-card')) {
+            entry.target.classList.add('animate-slide-up');
+          } else if (entry.target.classList.contains('feature')) {
+            entry.target.classList.add('animate-slide-left');
+          } else {
+            entry.target.classList.add('animate-slide-up');
+          }
+        }, index * 100);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  // Observe elements for sophisticated animations
+  const animatedElements = document.querySelectorAll(`
+    .section-title, 
+    .category-card, 
+    .product-card, 
+    .feature, 
+    .contact-item,
+    .hero-content h2,
+    .hero-content p,
+    .cta-btn
+  `);
+
+  animatedElements.forEach((element, index) => {
+    element.classList.add('animate-on-scroll');
+    element.style.transitionDelay = `${index * 0.05}s`;
+    animationObserver.observe(element);
+  });
+
+  // Add sophisticated hover effects
+  addSophisticatedHoverEffects();
+  
+  // Initialize floating animations with different delays
+  const floatingElements = document.querySelectorAll('.category-card, .product-card');
+  floatingElements.forEach((element, index) => {
+    element.style.animationDelay = `${index * 0.2}s`;
+  });
+
+  // Add parallax scrolling effects
+  initializeParallaxEffects();
+}
+
+function addSophisticatedHoverEffects() {
+  const hoverElements = document.querySelectorAll(`
+    .category-card, 
+    .product-card, 
+    .contact-item, 
+    .feature,
+    .filter-btn,
+    .cta-btn,
+    .add-to-cart-btn
+  `);
+
+  hoverElements.forEach(element => {
+    element.classList.add('sophisticated-hover');
+    
+    element.addEventListener('mouseenter', function() {
+      this.style.animationPlayState = 'paused';
+    });
+    
+    element.addEventListener('mouseleave', function() {
+      this.style.animationPlayState = 'running';
+    });
+  });
+}
+
+function initializeParallaxEffects() {
+  const parallaxElements = document.querySelectorAll('.hero, .categories, .about');
+  
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset;
+    
+    parallaxElements.forEach((element, index) => {
+      const speed = 0.5 + (index * 0.1);
+      const yPos = -(scrollTop * speed);
+      element.style.transform = `translateY(${yPos}px)`;
+    });
+  });
+}
+
+// Enhanced smooth scrolling with sophisticated easing
+function sophisticatedScrollTo(target) {
+  const targetElement = document.querySelector(target);
+  if (!targetElement) return;
+
+  const targetPosition = targetElement.offsetTop - 100;
+  const startPosition = window.pageYOffset;
+  const distance = targetPosition - startPosition;
+  const duration = 1200;
+  let start = null;
+
+  function sophisticatedEase(t) {
+    return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+  }
+
+  function animation(currentTime) {
+    if (start === null) start = currentTime;
+    const timeElapsed = currentTime - start;
+    const progress = Math.min(timeElapsed / duration, 1);
+    const easedProgress = sophisticatedEase(progress);
+    
+    window.scrollTo(0, startPosition + distance * easedProgress);
+    
+    if (timeElapsed < duration) {
+      requestAnimationFrame(animation);
+    }
+  }
+  
+  requestAnimationFrame(animation);
+}
+
+// Enhanced notification system with sophisticated animations
+function showSophisticatedNotification(message, type = 'success') {
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${type === 'success' ? 'linear-gradient(135deg, #10b981, #34d399)' : 
+                 type === 'info' ? 'linear-gradient(135deg, #3b82f6, #60a5fa)' : 
+                 'linear-gradient(135deg, #ef4444, #f87171)'};
+    color: white;
+    padding: 1.5rem 2rem;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    z-index: 10000;
+    max-width: 350px;
+    word-wrap: break-word;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: slideInFromRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  `;
+  
+  notification.textContent = message;
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.style.animation = 'slideInFromRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse';
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 600);
+  }, 4000);
 }
 
 // Performance monitoring
