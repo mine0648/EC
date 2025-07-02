@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ModernShop - おしゃれで高品質な商品を取り揃えたECサイト。ファッション、雑貨、アクセサリーなど豊富な商品ラインナップ。">
+  <meta name="keywords" content="ECサイト,オンラインショップ,ファッション,雑貨,アクセサリー,ModernShop">
+  <meta name="author" content="ModernShop">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ModernShop - おしゃれなオンラインショップ">
+  <meta property="og:description" content="高品質でスタイリッシュな商品を取り揃えたECサイト">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630&q=80">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="ModernShop - おしゃれなオンラインショップ">
+  <meta property="twitter:description" content="高品質でスタイリッシュな商品を取り揃えたECサイト">
+
+  <title>ModernShop - おしゃれなオンラインショップ</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="nav-container">
+      <div class="logo">
+        <h1>ModernShop</h1>
+      </div>
+      
+      <nav class="nav-menu">
+        <a href="#home">ホーム</a>
+        <a href="#products">商品一覧</a>
+        <a href="#categories">カテゴリー</a>
+        <a href="#about">ブランド</a>
+        <a href="#contact">お問い合わせ</a>
+      </nav>
+      
+      <div class="header-actions">
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="商品を検索...">
+          <button class="search-btn">🔍</button>
+        </div>
+        <button class="user-btn" onclick="openAuthModal()">👤</button>
+        <button class="cart-btn" onclick="openCart()">
+          🛒 <span class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h2>新しいスタイルを見つけよう</h2>
+      <p>厳選された高品質な商品をお手頃価格で</p>
+      <button class="cta-btn" onclick="scrollToProducts()">今すぐショッピング</button>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section id="categories" class="categories">
+    <div class="container">
+      <h2 class="section-title">カテゴリー</h2>
+      <div class="categories-grid">
+        <div class="category-card" data-category="fashion">
+          <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80" alt="ファッション">
+          <h3>ファッション</h3>
+        </div>
+        <div class="category-card" data-category="accessories">
+          <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80" alt="アクセサリー">
+          <h3>アクセサリー</h3>
+        </div>
+        <div class="category-card" data-category="home">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80" alt="ホーム＆リビング">
+          <h3>ホーム＆リビング</h3>
+        </div>
+        <div class="category-card" data-category="electronics">
+          <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80" alt="エレクトロニクス">
+          <h3>エレクトロニクス</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section id="products" class="products">
+    <div class="container">
+      <h2 class="section-title">おすすめ商品</h2>
+      
+      <!-- Filter Options -->
+      <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">すべて</button>
+        <button class="filter-btn" data-filter="fashion">ファッション</button>
+        <button class="filter-btn" data-filter="accessories">アクセサリー</button>
+        <button class="filter-btn" data-filter="home">ホーム</button>
+        <button class="filter-btn" data-filter="electronics">エレクトロニクス</button>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="products-grid">
+        <!-- Products will be dynamically loaded -->
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-text">
+          <h2>ModernShopについて</h2>
+          <p>私たちは2020年から、世界中から厳選した高品質な商品をお客様にお届けしています。おしゃれで実用的なアイテムを、手頃な価格で提供することを使命としています。</p>
+          <div class="features">
+            <div class="feature">
+              <span class="feature-icon">🚚</span>
+              <h4>全国送料無料</h4>
+              <p>5,000円以上のお買い上げで送料無料</p>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">↩️</span>
+              <h4>30日間返品保証</h4>
+              <p>ご満足いただけない場合は無料で返品可能</p>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">🔒</span>
+              <h4>安心のセキュリティ</h4>
+              <p>SSL暗号化による安全な決済システム</p>
+            </div>
+          </div>
+        </div>
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="ModernShopについて">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2 class="section-title">お問い合わせ</h2>
+      <div class="contact-info">
+        <div class="contact-item">
+          <h4>カスタマーサポート</h4>
+          <p>📞 0120-000-000</p>
+          <p>📧 support@modernshop.com</p>
+          <p>🕒 平日 9:00-18:00</p>
+        </div>
+        <div class="contact-item">
+          <h4>よくある質問</h4>
+          <p>配送・返品・交換について</p>
+          <button class="contact-btn">FAQを見る</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shopping Cart Modal -->
+  <div id="cart-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>ショッピングカート</h3>
+        <button class="close-btn" onclick="closeCart()">&times;</button>
+      </div>
+      <div class="cart-items" id="cart-items">
+        <!-- Cart items will be displayed here -->
+      </div>
+      <div class="cart-footer">
+        <div class="cart-total">
+          <strong>合計: ¥<span id="cart-total">0</span></strong>
+        </div>
+        <button class="checkout-btn" onclick="checkout()">レジに進む</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>ログイン / 新規登録</h3>
+        <button class="close-btn" onclick="closeAuthModal()">&times;</button>
+      </div>
+      <div class="auth-forms">
+        <div class="auth-form" id="login-form">
+          <h4>ログイン</h4>
+          <input type="email" placeholder="メールアドレス" required>
+          <input type="password" placeholder="パスワード" required>
+          <button class="auth-btn">ログイン</button>
+          <p>アカウントをお持ちでない方は <a href="#" onclick="showRegister()">新規登録</a></p>
+        </div>
+        <div class="auth-form hidden" id="register-form">
+          <h4>新規登録</h4>
+          <input type="text" placeholder="お名前" required>
+          <input type="email" placeholder="メールアドレス" required>
+          <input type="password" placeholder="パスワード" required>
+          <button class="auth-btn">新規登録</button>
+          <p>既にアカウントをお持ちの方は <a href="#" onclick="showLogin()">ログイン</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Detail Modal -->
+  <div id="product-modal" class="modal">
+    <div class="modal-content product-detail">
+      <button class="close-btn" onclick="closeProductModal()">&times;</button>
+      <div class="product-detail-content" id="product-detail-content">
+        <!-- Product details will be loaded here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>ModernShop</h4>
+          <p>おしゃれで高品質な商品をお届けします</p>
+        </div>
+        <div class="footer-section">
+          <h4>サポート</h4>
+          <p>お問い合わせ</p>
+          <p>配送について</p>
+          <p>返品・交換</p>
+        </div>
+        <div class="footer-section">
+          <h4>会社情報</h4>
+          <p>会社概要</p>
+          <p>利用規約</p>
+          <p>プライバシーポリシー</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 ModernShop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
