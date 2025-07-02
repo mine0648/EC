@@ -497,6 +497,12 @@ function trackEvent(eventName, properties = {}) {
 
 // Sophisticated animation system
 function initializeSophisticatedAnimations() {
+  // Create floating particles
+  createFloatingParticles();
+  
+  // Create interactive background elements
+  createInteractiveBackground();
+  
   // Create intersection observer for scroll animations
   const animationObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
@@ -662,10 +668,192 @@ function showSophisticatedNotification(message, type = 'success') {
   }, 4000);
 }
 
+// Create floating particles for dynamic background
+function createFloatingParticles() {
+  const particleContainer = document.createElement('div');
+  particleContainer.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  `;
+  document.body.appendChild(particleContainer);
+
+  // Create different types of particles
+  for (let i = 0; i < 15; i++) {
+    createParticle(particleContainer, 'circle');
+  }
+  for (let i = 0; i < 10; i++) {
+    createParticle(particleContainer, 'square');
+  }
+  for (let i = 0; i < 8; i++) {
+    createParticle(particleContainer, 'triangle');
+  }
+}
+
+function createParticle(container, type) {
+  const particle = document.createElement('div');
+  const size = Math.random() * 20 + 10;
+  const opacity = Math.random() * 0.3 + 0.1;
+  const animationDuration = Math.random() * 20 + 15;
+  const delay = Math.random() * 10;
+
+  let shapeStyles = '';
+  switch (type) {
+    case 'circle':
+      shapeStyles = `
+        border-radius: 50%;
+        background: linear-gradient(45deg, rgba(102, 126, 234, ${opacity}), rgba(139, 92, 246, ${opacity}));
+      `;
+      break;
+    case 'square':
+      shapeStyles = `
+        border-radius: 20%;
+        background: linear-gradient(135deg, rgba(240, 147, 251, ${opacity}), rgba(245, 101, 101, ${opacity}));
+        transform: rotate(45deg);
+      `;
+      break;
+    case 'triangle':
+      shapeStyles = `
+        width: 0;
+        height: 0;
+        border-left: ${size/2}px solid transparent;
+        border-right: ${size/2}px solid transparent;
+        border-bottom: ${size}px solid rgba(16, 185, 129, ${opacity});
+      `;
+      break;
+  }
+
+  particle.style.cssText = `
+    position: absolute;
+    width: ${size}px;
+    height: ${size}px;
+    ${shapeStyles}
+    left: ${Math.random() * 100}vw;
+    top: ${Math.random() * 100}vh;
+    animation: particleFloat ${animationDuration}s ease-in-out infinite ${delay}s;
+    filter: blur(0.5px);
+  `;
+
+  container.appendChild(particle);
+}
+
+// Create interactive background that responds to mouse movement
+function createInteractiveBackground() {
+  const interactiveLayer = document.createElement('div');
+  interactiveLayer.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.5;
+  `;
+  document.body.appendChild(interactiveLayer);
+
+  // Create multiple floating blobs that respond to mouse
+  for (let i = 0; i < 5; i++) {
+    createInteractiveBlob(interactiveLayer, i);
+  }
+
+  // Mouse movement effect
+  let mouseX = 0;
+  let mouseY = 0;
+  
+  document.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX / window.innerWidth) * 100;
+    mouseY = (e.clientY / window.innerHeight) * 100;
+    
+    updateInteractiveElements(mouseX, mouseY);
+  });
+}
+
+function createInteractiveBlob(container, index) {
+  const blob = document.createElement('div');
+  const size = Math.random() * 200 + 100;
+  const colors = [
+    'rgba(102, 126, 234, 0.1)',
+    'rgba(139, 92, 246, 0.1)',
+    'rgba(240, 147, 251, 0.1)',
+    'rgba(16, 185, 129, 0.1)',
+    'rgba(245, 158, 11, 0.1)'
+  ];
+
+  blob.style.cssText = `
+    position: absolute;
+    width: ${size}px;
+    height: ${size}px;
+    background: radial-gradient(circle, ${colors[index]}, transparent);
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    left: ${Math.random() * 80 + 10}%;
+    top: ${Math.random() * 80 + 10}%;
+    filter: blur(1px);
+    transition: transform 0.3s ease-out;
+    animation: morphingBlob ${15 + index * 2}s ease-in-out infinite;
+  `;
+
+  blob.classList.add('interactive-blob');
+  container.appendChild(blob);
+}
+
+function updateInteractiveElements(mouseX, mouseY) {
+  const blobs = document.querySelectorAll('.interactive-blob');
+  
+  blobs.forEach((blob, index) => {
+    const offsetX = (mouseX - 50) * (0.1 + index * 0.02);
+    const offsetY = (mouseY - 50) * (0.1 + index * 0.02);
+    
+    blob.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${1 + Math.sin(Date.now() * 0.001 + index) * 0.1})`;
+  });
+}
+
+// Create scroll-based background effects
+function createScrollBasedEffects() {
+  const scrollLayer = document.createElement('div');
+  scrollLayer.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+  `;
+  document.body.appendChild(scrollLayer);
+
+  // Add scroll listener for dynamic effects
+  window.addEventListener('scroll', () => {
+    const scrollProgress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    
+    // Update background elements based on scroll
+    updateScrollBasedElements(scrollProgress);
+  });
+}
+
+function updateScrollBasedElements(progress) {
+  const particles = document.querySelectorAll('[style*="particleFloat"]');
+  
+  particles.forEach((particle, index) => {
+    const rotation = progress * 360 * (index % 2 === 0 ? 1 : -1);
+    const scale = 1 + Math.sin(progress * Math.PI * 2 + index) * 0.2;
+    
+    particle.style.transform += ` rotate(${rotation}deg) scale(${scale})`;
+  });
+}
+
 // Performance monitoring
 window.addEventListener('load', () => {
   const loadTime = performance.now();
   console.log(`ModernShop loaded in ${Math.round(loadTime)}ms`);
+  
+  // Initialize scroll-based effects after load
+  createScrollBasedEffects();
 });
 
 // Service Worker registration (for PWA features)
